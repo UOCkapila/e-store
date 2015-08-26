@@ -24,13 +24,21 @@ public class Bookrepository implements Bookrepositoryimpl{
 
     }
 
-    @Override
-    public boolean insertBook(String book_name,String book_author,int price,String version) {
-
+    public boolean makeBook(String book_name, String book_author, int price, String version){
         book.setBook_name(book_name);
         book.setAuthor(book_author);
         book.setPrice(price);
         book.setVersion(version);
+        return true;
+    }
+
+    @Override
+    public boolean insertBook(Book book) {
+
+        String book_name = book.getBook_name();
+        String book_author = book.getAuthor();
+        int price = book.getPrice();
+        String version = book.getVersion();
 
         try {
             statement = connection.createStatement();
@@ -111,7 +119,6 @@ public class Bookrepository implements Bookrepositoryimpl{
                 String bookAuthor = resultSet.getString("book_author");
                 String price = resultSet.getString("price");
                 String version = resultSet.getString("version");
-
                 System.out.println(bookName +" "+bookAuthor+" "+price+" "+version);
             }
             return true;
