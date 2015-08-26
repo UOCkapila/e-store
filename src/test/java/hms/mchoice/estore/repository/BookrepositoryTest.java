@@ -2,14 +2,17 @@ package hms.mchoice.estore.repository;
 
 import hms.mchoice.estore.domain.Book;
 import junit.framework.TestCase;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class BookrepositoryTest extends TestCase {
 
     Bookrepository testRepo = new Bookrepository();
 
+    @BeforeClass
+    public void testMakeConnection() throws Exception{
+        assertTrue(testRepo.makeConnection());
+    }
     @Test
     public void testInsertBook() throws Exception {
         Book book = new Book();
@@ -22,7 +25,7 @@ public class BookrepositoryTest extends TestCase {
         assertTrue(testRepo.viewDetail(2));
     }
 
-    @Test(timeout=100)
+    @Test(timeout=1)
     public void testUpdateBook() throws Exception {
         assertTrue(testRepo.updateBook(3, "kmnd", "bhsd", 9454, "k2"));
     }

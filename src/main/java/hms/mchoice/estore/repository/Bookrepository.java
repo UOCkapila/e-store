@@ -9,10 +9,6 @@ import java.sql.*;
  */
 public class Bookrepository implements Bookrepositoryimpl{
 
-    private final String driver ="com.mysql.jdbc.Driver";
-    private final String url ="jdbc:mysql://localhost/";
-    private final String user="root";
-    private final String pass="admin";
     private  Statement statement=null;
     private  Connection connection =null;
     private  ResultSet resultSet = null;
@@ -100,8 +96,12 @@ public class Bookrepository implements Bookrepositoryimpl{
 
     public boolean makeConnection() {
         try {
+            String driver = "com.mysql.jdbc.Driver";
             Class.forName(driver);
-            connection = DriverManager.getConnection(url, user, pass);
+            String password = "admin";
+            String user = "root";
+            String url = "jdbc:mysql://localhost/";
+            connection = DriverManager.getConnection(url, user, password);
             return true;
         } catch (Exception e) {
             System.out.println("Couldn't make the connection with the database");
