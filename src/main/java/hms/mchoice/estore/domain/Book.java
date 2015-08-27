@@ -4,34 +4,50 @@ package hms.mchoice.estore.domain;
  * Created by kapila on 8/24/15.
  */
 public class Book {
-    private String book_name;
+
+    private String bookName;
     private String author;
     private int price;
     private String version;
+    private int bookId;
 
-    public void setBook_name(String book_name1){
-        book_name = book_name1;
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
     }
-    public void  setAuthor(String author1){
-        author = author1;
+
+    public int getBookId() {
+        return bookId;
     }
-    public void setPrice(int price1){
-        price = price1;
+
+    public String getBookName() {
+        return bookName;
     }
-    public void setVersion(String version1){
-        version =version1;
+
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
     }
-    public String getBook_name(){
-        return book_name;
-    }
-    public  String getAuthor(){
+
+    public String getAuthor() {
         return author;
     }
-    public int getPrice(){
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public int getPrice() {
         return price;
     }
-    public String getVersion(){
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public String getVersion() {
         return version;
     }
 
+    public void setVersion(String version) {
+        this.version = version;
+    }
 }
