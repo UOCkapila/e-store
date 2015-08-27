@@ -19,15 +19,15 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public void insertBook(Book book) {
-        String book_name = book.getBookName();
-        String book_author = book.getAuthor();
+        String bookName= book.getBookName();
+        String bookAuthor = book.getAuthor();
         int price = book.getPrice();
         String version = book.getVersion();
 
         try {
             statement = connection.createStatement();
             statement.executeUpdate("INSERT INTO bookStore.book(book_name,book_author,price,version) VALUES ('" +
-                    book_name + "','" + book_author + "'," + price + ",'" + version + "')");
+                    bookName + "','" + bookAuthor + "'," + price + ",'" + version + "')");
         }catch (Exception e) {
             System.out.println(e+" Cannot insert data");
         }
@@ -53,11 +53,10 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public void updateBook(int id, String book_name, String book_author, int price, String version) {
-
+    public void updateBook(int id, String bookName, String bookAuthor, int price, String version) {
         try {
             statement = connection.createStatement();
-            String sql = "update bookStore.book set book_name='"+book_name+"',book_author='"+book_author
+            String sql = "update bookStore.book set book_name='"+bookName+"',book_author='"+bookAuthor
                     +"',price="+price+",version='"+version+"' where book_id ="+id+"";
             statement.executeUpdate(sql);
         }catch (Exception e) {
@@ -67,7 +66,6 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public void deleteBook(int id) {
-
         try {
             statement = connection.createStatement();
             statement.executeUpdate("delete from bookStore.book where book_id = " + id + "");
@@ -77,7 +75,6 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     public void makeConnection() {
-
         try {
             String driver = "com.mysql.jdbc.Driver";
             Class.forName(driver);
@@ -85,7 +82,7 @@ public class BookRepositoryImpl implements BookRepository {
             String user = "root";
             String url = "jdbc:mysql://localhost/";
             connection = DriverManager.getConnection(url, user, password);
-        } catch (Exception e) {
+        }catch (Exception e) {
             System.out.println("Couldn't make the connection with the database");
         }
     }
@@ -130,8 +127,6 @@ public class BookRepositoryImpl implements BookRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return count;
     }
-
 }
