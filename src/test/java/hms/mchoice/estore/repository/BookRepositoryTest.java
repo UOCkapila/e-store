@@ -11,17 +11,18 @@ public class BookRepositoryTest {
     @Test
     public void testInsertBook() throws Exception {
         Book book = new Book();
-        book.setBookName("asbd");
+        book.setBookName("hij");
         book.setAuthor("unds");
         book.setPrice(3212);
         book.setVersion("uihjhk");
         testRepository.insertBook(book);
-        Book resultBook = testRepository.findBook(71);
-        Assert.assertEquals(resultBook.getBookName(), "asbd");
+        int bookId = testRepository.findByName("hij");
+        Book resultBook = testRepository.findBook(bookId);
+        Assert.assertEquals(resultBook.getBookName(), "hij");
         Assert.assertEquals(resultBook.getAuthor(), "unds");
         Assert.assertEquals(resultBook.getPrice(), 3212);
         Assert.assertEquals(resultBook.getVersion(), "uihjhk");
-        testRepository.deleteBook(71);
+        testRepository.deleteBook(bookId);
     }
 
     @Test
@@ -77,4 +78,10 @@ public class BookRepositoryTest {
     public void testBookCount() throws Exception{
         Assert.assertNotEquals(testRepository.bookCount(),0);
     }
+
+    @Test
+    public void  testFindByName() throws Exception{
+        Assert.assertEquals(testRepository.findByName("as"),48);
+    }
+
 }

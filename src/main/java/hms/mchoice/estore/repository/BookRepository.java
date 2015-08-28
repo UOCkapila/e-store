@@ -20,4 +20,6 @@ public interface BookRepository {
     public Book[] viewAllDetails();
 
     public int bookCount();
+
+    public int findByName(String bookName);
 }

@@ -129,4 +129,20 @@ public class BookRepositoryImpl implements BookRepository {
         }
         return count;
     }
+
+    @Override
+    public int findByName(String bookName) {
+        int bookId = 0;
+
+        try{
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("select book_id from bookStore.book where book_name='"+bookName+"'");
+            while(resultSet.next()){
+                bookId = Integer.parseInt(resultSet.getString("book_id"));
+            }
+        }catch (Exception e) {
+            System.out.println("Cannot retrieve data");
+        }
+        return bookId;
+    }
 }
