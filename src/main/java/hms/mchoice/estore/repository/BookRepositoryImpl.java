@@ -3,6 +3,8 @@ package hms.mchoice.estore.repository;
 import hms.mchoice.estore.domain.Book;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kapila on 8/24/15.
@@ -28,6 +30,7 @@ public class BookRepositoryImpl implements BookRepository {
             statement = connection.createStatement();
             statement.executeUpdate("INSERT INTO bookStore.book(book_name,book_author,price,version) VALUES ('" +
                     bookName + "','" + bookAuthor + "'," + price + ",'" + version + "')");
+            book.setBookId(findByName(bookName).getBookId());
         }catch (Exception e) {
             System.out.println(e+" Cannot insert data");
         }
@@ -41,6 +44,7 @@ public class BookRepositoryImpl implements BookRepository {
             statement = connection.createStatement();
             resultSet = statement.executeQuery("select * from bookStore.book where book_id="+id+"");
             while(resultSet.next()){
+                resultBook.setBookId(resultSet.getInt("book_id"));
                 resultBook.setBookName(resultSet.getString("book_name"));
                 resultBook.setAuthor(resultSet.getString("book_author"));
                 resultBook.setPrice(Integer.parseInt(resultSet.getString("price")));
@@ -53,7 +57,13 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public void updateBook(int id, String bookName, String bookAuthor, int price, String version) {
+    public void updateBook(Book book) {
+        long id = book.getBookId();
+        String bookName = book.getBookName();
+        String bookAuthor = book.getAuthor();
+        int price = book.getPrice();
+        String version = book.getVersion();
+
         try {
             statement = connection.createStatement();
             String sql = "update bookStore.book set book_name='"+bookName+"',book_author='"+bookAuthor
@@ -65,10 +75,11 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public void deleteBook(int id) {
+    public void deleteBook(Book book) {
+        int id = book.getBookId();
         try {
             statement = connection.createStatement();
-            statement.executeUpdate("delete from bookStore.book where book_id = " + id + "");
+            statement.executeUpdate("delete from bookStore.book where book_id = "+ id +"");
         }catch (Exception e) {
             System.out.println(e+" Cannot delete data");
         }
@@ -88,14 +99,12 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public Book[] viewAllDetails() {
-        Book bookList[] = new Book[100];
+    public List viewAllDetails() {
+        List<Book> bookList = new ArrayList<Book>();
 
         try{
             statement = connection.createStatement();
             resultSet = statement.executeQuery("select * from bookStore.book");
-
-            int i=0;
 
             while(resultSet.next()){
                 Book book = new Book();
@@ -104,8 +113,7 @@ public class BookRepositoryImpl implements BookRepository {
                 book.setAuthor(resultSet.getString("book_author"));
                 book.setPrice(Integer.parseInt(resultSet.getString("price")));
                 book.setVersion(resultSet.getString("version"));
-                bookList[i]=book;
-                i++;
+                bookList.add(book);
             }
 
         }catch (Exception e) {
@@ -131,18 +139,22 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public int findByName(String bookName) {
-        int bookId = 0;
+    public Book findByName(String bookName) {
+        Book resultBook = new Book();
 
         try{
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("select book_id from bookStore.book where book_name='"+bookName+"'");
+            resultSet = statement.executeQuery("select * from bookStore.book where book_name='"+bookName+"'");
             while(resultSet.next()){
-                bookId = Integer.parseInt(resultSet.getString("book_id"));
+                resultBook.setBookId(resultSet.getInt("book_id"));
+                resultBook.setBookName(resultSet.getString("book_name"));
+                resultBook.setAuthor(resultSet.getString("book_author"));
+                resultBook.setPrice(Integer.parseInt(resultSet.getString("price")));
+                resultBook.setVersion(resultSet.getString("version"));
             }
         }catch (Exception e) {
             System.out.println("Cannot retrieve data");
         }
-        return bookId;
+        return resultBook;
     }
 }

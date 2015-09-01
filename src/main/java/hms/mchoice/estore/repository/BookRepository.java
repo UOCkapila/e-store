@@ -2,6 +2,8 @@ package hms.mchoice.estore.repository;
 
 import hms.mchoice.estore.domain.Book;
 
+import java.util.List;
+
 /**
  * Created by kapila on 8/24/15.
  */
@@ -11,15 +13,15 @@ public interface BookRepository {
 
     public Book findBook(int id);
 
-    public void updateBook(int id, String book_name, String book_author, int price, String version);
+    public void updateBook(Book book);
 
-    public void deleteBook(int id);
+    public void deleteBook(Book book);
 
     public void makeConnection();
 
-    public Book[] viewAllDetails();
+    public List viewAllDetails();
 
     public int bookCount();
 
-    public int findByName(String bookName);
+    public Book findByName(String bookName);
 }
